@@ -22,8 +22,7 @@ jobs:
           echo 'production'
           echo "SERVER=production" >> "$GITHUB_ENV"
           echo "SOME_VAR=main-good" >> "$GITHUB_ENV"
-        fi
-        if [ $GITHUB_REF_NAME == "staging"]; then
+        else
           echo 'staging'
           echo "SERVER=staging" >> "$GITHUB_ENV"
           echo "SOME_VAR=second-good" >> "$GITHUB_ENV"
