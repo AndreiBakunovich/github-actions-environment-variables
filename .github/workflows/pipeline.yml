@@ -38,4 +38,4 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Print context variable
-      run: echo SERVER = ${{ env.SERVER }}; and SOME_VAR = ${{ env.SOME_VAR }}
+      run: echo SERVER = ${{ env.SERVER }} and SOME_VAR = ${{ env.SOME_VAR }}
