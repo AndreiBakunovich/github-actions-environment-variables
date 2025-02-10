@@ -14,15 +14,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
     - name: set variables
       run: |
-        if [[ $GITHUB_REF_NAME == 'main' ]]; then
+        if [ $GITHUB_REF_NAME == "main" ]; then
+          echo 'production'
           echo "SERVER=production" >> "$GITHUB_ENV"
           echo "SOME_VAR=main-good" >> "$GITHUB_ENV"
-        if [[ $GITHUB_REF_NAME == 'staging']]; then
+        elif [ $GITHUB_REF_NAME == 'staging']; then
+          echo 'staging'
           echo "SERVER=staging" >> "$GITHUB_ENV"
           echo "SOME_VAR=second-good" >> "$GITHUB_ENV"
+        else
+          echo 'test'
+        fi
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
