@@ -16,16 +16,17 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: set production
-      if: $GITHUB_REF_NAME == "main"
+    - name: set context variables
       run: |
-        echo "SERVER=production" >> "$GITHUB_ENV"
-        echo "SOME_VAR=main-good" >> "$GITHUB_ENV"
-    - name: set staging
-      if: $GITHUB_REF_NAME == "staging"
-      run: |
-        echo "SERVER=staging" >> "$GITHUB_ENV"
-        echo "SOME_VAR=not-main-good" >> "$GITHUB_ENV"
+        if [ $GITHUB_REF_NAME == "main" ]; then
+          echo 'production'
+          echo "SERVER=production" >> "$GITHUB_ENV"
+          echo "SOME_VAR=main-good" >> "$GITHUB_ENV"
+        else
+          echo 'staging'
+          echo "SERVER=staging" >> "$GITHUB_ENV"
+          echo "SOME_VAR=second-good" >> "$GITHUB_ENV"
+        fi
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
