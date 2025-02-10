@@ -2,18 +2,25 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - staging
   pull_request:
     branches: [ "main" ]
 
 jobs:
   build:
-    env:
-      SERVER: "production"
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
+    - name: set variables
+      run: |
+        if [[ $GITHUB_REF_NAME == 'main' ]]; then
+              echo "SERVER=production" >> "$GITHUB_ENV"
+              echo "SOME_VAR=main-good" >> "$GITHUB_ENV"
+        if [[ $GITHUB_REF_NAME == 'staging']]; then
+              echo "SERVER=staging" >> "$GITHUB_ENV"
+              echo "SOME_VAR=second-good" >> "$GITHUB_ENV"
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
@@ -23,4 +30,4 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Print context variable
-      run: echo ${{ env.SERVER }}
+      run: echo SERVER = ${{ SERVER }}; and SOME_VAR = ${{ SOME_VAR }}
